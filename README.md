@@ -10,7 +10,12 @@ Welcome to the Axeptio Mobile SDK Samples project! This repository demonstrates 
 3. [Axeptio SDK Implementation](#3-axeptio-sdk-implementation)
 4. [Initialize the SDK](#4-initialize-the-sdk)
 5. [Responsibilities: Mobile App vs SDK](#5-responsibilities-mobile-app-vs-sdk)
-6. [Get Stored Consents](#6-get-stored-consents) 
+6. [Get Stored Consents](#6-get-stored-consents)
+7. [Show Consent Popup on Demand](#7-show-consent-popup-on-demand)
+8. [Popup Events](#8-popup-events)
+9. [Sharing Consents with Other Web Views](#9-sharing-consents-with-other-web-views)
+10. [Clear User's Consent Choices](#10-clear-users-consent-choices)
+
 
 <br><br>
 
@@ -258,3 +263,83 @@ val consentValue = sharedPref.getString("key", "default_value")
 ```
 In this example, replace `key` with the actual key used to store consent information, and `default_value` with the value you want to return if no consent is found.
 For more detailed information about the stored values, cookies, and how to handle them according to the Axeptio SDK, please refer to the [Axeptio Documentation](https://support.axeptio.eu/hc/en-gb/articles/8558526367249-Does-Axeptio-deposit-cookies)
+<br><br><br>
+# 7. Show Consent Popup on Demand
+You can trigger the consent popup to open on demand at any point in your application by using the following methods.
+
+- **Kotlin**:
+```kotlin
+// Show the consent popup on demand
+AxeptioSDK.instance().showConsentScreen(
+    activity = activity,  // Pass the activity context
+    managePreferencesUseCase = true  // Optional: Manages user preferences when the popup is shown
+)
+```
+-**Java**
+```java
+// Show the consent popup on demand
+AxeptioSDK.instance().showConsentScreen(
+    activity,  // Pass the activity context
+    true  // Optional: Manages user preferences when the popup is shown
+);
+```
+<br><br><br>
+# 8. Popup Events
+When the consent popup is closed, an event is triggered. You can listen for this event by setting an `AxeptioEventListener`.
+- **Kotlin**:
+```kotlin
+// Set an event listener for when the consent popup is closed
+AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
+    override fun onPopupClosedEvent() {
+        // Handle the event when the popup is closed
+    }
+})
+```
+-**Java**
+```java
+// Set an event listener for when the consent popup is closed
+AxeptioSDK.instance().setEventListener(new AxeptioEventListener() {
+    @Override
+    public void onPopupClosedEvent() {
+        super.onPopupClosedEvent();
+        // Handle the event when the popup is closed
+    }
+});
+```
+<br><br><br>
+# 9. Sharing Consents with Other Web Views
+This feature is available exclusively for **Publishers** service.
+
+The SDK provides a helper function to append the `axeptio_token` query parameter to any URL. You can either specify a custom user token or use the token currently stored in the SDK.
+- **Kotlin**:
+```kotlin
+// Append the Axeptio token to a URL
+AxeptioSDK.instance().appendAxeptioToken(
+    uri = Uri.parse("https://myurl.com"),  // The URL to which you want to append the token
+    token = AxeptioSDK.instance().token ?: ""  // Use the current token, or provide a custom one
+)
+```
+This will return: `https://myurl.com?axeptio_token=[token]`
+
+<br><br><br>
+# 10. 🧹Clear User's Consent Choices
+To clear the user’s consent choices, you can use the following method. Please note that this operation is asynchronous, so you should use the `AxeptioEventListener.onConsentCleared()` method to be notified when the user’s consent choices have been cleared from SharedPreferences.
+- **Kotlin**
+```kotlin
+// Clear the user's consent choices
+AxeptioSDK.instance().clearConsents()
+```
+You can listen for the consent clearance event with the following code:
+```kotlin
+// Set an event listener for when the consents are cleared
+AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
+    override fun onConsentCleared() {
+        // Handle the event when consents are cleared
+    }
+})
+```
+
+
+
+
+
