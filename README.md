@@ -15,6 +15,7 @@ Welcome to the Axeptio Mobile SDK Samples project! This repository demonstrates 
 8. [Popup Events](#8-popup-events)
 9. [Sharing Consents with Other Web Views](#9-sharing-consents-with-other-web-views)
 10. [Clear User's Consent Choices](#10-clear-users-consent-choices)
+11. [Google Consent v2](#11-google-consent-v2)
 
 
 <br><br>
@@ -338,8 +339,104 @@ AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
     }
 })
 ```
+<br><br><br>
+# 11. Google Consent v2
+This section describes how to integrate **Google Consent Mode** with the Axeptio SDK in your Android application.
+##### Prerequisites:
+Before proceeding, ensure that **Firebase Analytics** is integrated into your Android project.
+##### How It Works:
+When user consent is collected through your **Consent Management Platform (CMP)**, the SDK will automatically set the `IABTCF_EnableAdvertiserConsentMode` key in the **SharedPreferences_** to `true`.
+#### Register to Google Consent Updates
+The **Axeptio SDK** provides a callback method to listen for updates on Google Consent. These updates need to be mapped to the corresponding Firebase models. Once the consent statuses are mapped, you can update Firebase Analytics consent settings using the `setConsent()` method from **Firebase Analytics**.
 
+##### Kotlin Example:
+```kotlin
+// Set an event listener to listen for Google Consent Mode updates
+AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
+    override fun onGoogleConsentModeUpdate(consentMap: Map<GoogleConsentType, GoogleConsentStatus>) {
+        // Map the Google consent types and statuses to Firebase consent types
+        val firebaseConsentMap = consentMap.entries.associate { (type, status) ->
+            val firebaseConsentType = when (type) {
+                GoogleConsentType.ANALYTICS_STORAGE -> ConsentType.ANALYTICS_STORAGE
+                GoogleConsentType.AD_STORAGE -> ConsentType.AD_STORAGE
+                GoogleConsentType.AD_USER_DATA -> ConsentType.AD_USER_DATA
+                GoogleConsentType.AD_PERSONALIZATION -> ConsentType.AD_PERSONALIZATION
+            }
 
+            val firebaseConsentStatus = when (status) {
+                GoogleConsentStatus.GRANTED -> ConsentStatus.GRANTED
+                GoogleConsentStatus.DENIED -> ConsentStatus.DENIED
+            }
+
+            firebaseConsentType to firebaseConsentStatus
+        }
+
+        // Update Firebase Analytics consent with the mapped consent statuses
+        Firebase.analytics.setConsent(firebaseConsentMap)
+    }
+})
+```
+
+##### Java Example:
+```java
+// Set an event listener to listen for Google Consent Mode updates
+AxeptioSDK.instance().setEventListener(new AxeptioEventListener() {
+    @Override
+    public void onGoogleConsentModeUpdate(@NonNull Map<GoogleConsentType, ? extends GoogleConsentStatus> consentMap) {
+        super.onGoogleConsentModeUpdate(consentMap);
+
+        // Prepare the Firebase consent map
+        Map<FirebaseAnalytics.ConsentType, FirebaseAnalytics.ConsentStatus> firebaseConsentMap = new HashMap<>();
+
+        // Map the Google consent types and statuses to Firebase consent types
+        for (Map.Entry<GoogleConsentType, ? extends GoogleConsentStatus> entry : consentMap.entrySet()) {
+            FirebaseAnalytics.ConsentType firebaseConsentType = null;
+            switch (entry.getKey()) {
+                case ANALYTICS_STORAGE:
+                    firebaseConsentType = FirebaseAnalytics.ConsentType.ANALYTICS_STORAGE;
+                    break;
+                case AD_STORAGE:
+                    firebaseConsentType = FirebaseAnalytics.ConsentType.AD_STORAGE;
+                    break;
+                case AD_USER_DATA:
+                    firebaseConsentType = FirebaseAnalytics.ConsentType.AD_USER_DATA;
+                    break;
+                case AD_PERSONALIZATION:
+                    firebaseConsentType = FirebaseAnalytics.ConsentType.AD_PERSONALIZATION;
+                    break;
+            }
+
+            FirebaseAnalytics.ConsentStatus firebaseConsentStatus = null;
+            switch ((GoogleConsentStatus) entry.getValue()) {
+                case GRANTED:
+                    firebaseConsentStatus = FirebaseAnalytics.ConsentStatus.GRANTED;
+                    break;
+                case DENIED:
+                    firebaseConsentStatus = FirebaseAnalytics.ConsentStatus.DENIED;
+                    break;
+            }
+
+            // Add the consent status mapping to the Firebase consent map
+            if (firebaseConsentType != null && firebaseConsentStatus != null) {
+                firebaseConsentMap.put(firebaseConsentType, firebaseConsentStatus);
+            }
+        }
+
+        // Update Firebase Analytics with the mapped consent statuses
+        FirebaseAnalytics.getInstance(MainActivity.this).setConsent(firebaseConsentMap);
+    }
+});
+```
+#### Summary of Steps:
+1. Integrate **Firebase Analytics** into your Android project.
+2. Use the provided listener `onGoogleConsentModeUpdate()` to capture consent updates.
+3. Map the **Google Consent Types** and **Google Consent Statuses** to **Firebase Consent Types-**.
+4. Use Firebase’s `setConsent()` method to update the user’s consent status in Firebase Analytics.
+
+By following these steps, you can ensure that Google Consent Mode is correctly integrated with your application, and Firebase Analytics receives the consent status updates accordingly.
+<br><br><br>
+For more detailed information, you can visit the [Axeptio documentation](https://support.axeptio.eu/hc/en-gb).
+We hope this guide helps you get started with the Axeptio Android SDK. Good luck with your integration, and thank you for choosing Axeptio!
 
 
 
