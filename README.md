@@ -1,26 +1,26 @@
 <h1>
   <img src="https://axeptio.imgix.net/2024/07/e444a7b2-ea3d-4471-a91c-6be23e0c3cbb.png" alt="Descrizione immagine" width="80" style="vertical-align: middle; margin-right: 10px;" />
-  Axeptio Android SDK Documentation - test branch
+  Axeptio Android SDK Documentation
 </h1>
 
 Welcome to the Axeptio Mobile SDK Samples project! This repository demonstrates how to implement the **Axeptio Android SDK** in your mobile applications.
-# 📑 Table of Contents
-1. [Overview](#1-overview)
-2. [Getting Started](#2-getting-started)
-3. [Axeptio SDK Implementation](#3-axeptio-sdk-implementation)
-4. [Initialize the SDK](#4-initialize-the-sdk)
-5. [Responsibilities: Mobile App vs SDK](#5-responsibilities-mobile-app-vs-sdk)
-6. [Get Stored Consents](#6-get-stored-consents)
-7. [Show Consent Popup on Demand](#7-show-consent-popup-on-demand)
-8. [Popup Events](#8-popup-events)
-9. [Sharing Consents with Other Web Views](#9-sharing-consents-with-other-web-views)
-10. [Clear User's Consent Choices](#10-clear-users-consent-choices)
-11. [Google Consent v2](#11-google-consent-v2)
+## 📑 Table of Contents
+1. [Overview](#overview)
+2. [Getting Started](#getting-started)
+3. [Axeptio SDK Implementation](#axeptio-sdk-implementation)
+4. [Initialize the SDK](#initialize-the-sdk)
+5. [Responsibilities: Mobile App vs SDK](#responsibilities-mobile-app-vs-sdk)
+6. [Get Stored Consents](#get-stored-consents)
+7. [Show Consent Popup on Demand](#show-consent-popup-on-demand)
+8. [Popup Events](#popup-events)
+9. [Sharing Consents with Other Web Views](#sharing-consents-with-other-web-views)
+10. [Clear User's Consent Choices](#clear-users-consent-choices)
+11. [Google Consent v2](#google-consent-v2)
 
 
 <br><br>
 
-# 1. 👨‍💻Overview
+## 👨‍💻Overview
 This project includes two modules:
 - `samplejava`: Demonstrates how to use the Axeptio SDK with Java and XML.
 - `samplekotlin`: Shows the integration of the Axeptio SDK with Kotlin and Compose.
@@ -29,16 +29,16 @@ Both modules can be built using either the **brands** or **publishers** variants
 
 <br><br><br>
 
-# 2. Getting Started
+## Getting Started
 To begin testing the Axeptio SDK sample applications, follow these steps:
 
-#### Clone the repository
+##### Clone the repository
 
 First, clone the repository to your local development environment:
 ```bash
 git clone https://github.com/axeptio/sample-app-android
 ```
-#### Configure your Github access token
+##### Configure your Github access token
 To properly configure access to the Axeptio SDK, you need to add your GitHub token in the `settings.gradle.kts` file to fetch the SDK from the private repository. The library is not available on a public Maven repository, so it is crucial to configure the private repository correctly to avoid errors. You can also consider publishing the Axeptio SDK to a public repository to simplify integration, reducing the process complexity. Here’s how to configure the private repository in the `settings.gradle.kts` file:
 ```kotin
 maven {
@@ -49,16 +49,16 @@ maven {
     }
 }
 ```
-#### Ensure Proper Configuration in Axeptio Backoffice
+##### Ensure Proper Configuration in Axeptio Backoffice
 Before proceeding with the integration, ensure that your project is correctly configured in the Axeptio backoffice. Specifically, verify that your clientId and configurationId are set up correctly. This is critical for the SDK to function as expected. If these values are not correctly configured, the SDK will not initialize properly, leading to errors during integration.
 
-#### Select the appropriate sample module
+##### Select the appropriate sample module
 Choose the module corresponding to your preferred programming language and UI framework:
 
 - **samplejava**: Java and XML integration
 - **samplekotlin**: Kotlin and Compose integration
 
-#### Choose your build variant:
+##### Choose your build variant:
 Depending on your use case, select the appropriate build variant:
 
 - **publishers**
@@ -66,10 +66,10 @@ Depending on your use case, select the appropriate build variant:
 
 <br><br><br>
 
-# 3. 💻Axeptio SDK Implementation
+## 💻Axeptio SDK Implementation
 The Axeptio SDK provides consent management functionality for Android applications, enabling seamless integration for handling user consent.
 
-#### Gradle Implementation
+##### Gradle Implementation
 The SDK is hosted on GitHub Packages and is compatible with Android SDK versions **>= 26**.
 
 Follow these steps to integrate the Axeptio SDK into your Android project:
@@ -134,9 +134,9 @@ For more detailed instructions, refer to the [GitHub Documentation](https://docs
 
 <br><br><br>
 
-# 4. Initialize the SDK
+## Initialize the SDK
 To initialize the Axeptio SDK, you must call the initialization method inside the `onCreate()` method of your main activity. This call should be made before invoking any other Axeptio SDK functions. The SDK can be configured for either **Publishers** or **Brands** using the `AxeptioService` enum during initialization.
-#### Kotlin Implementation
+##### Kotlin Implementation
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -154,7 +154,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     }
 }
 ```
-#### Java Implementation
+##### Java Implementation
 ```java
 @Override
 protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -174,13 +174,13 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     }
 }
 ```
-#### Consent Popup Behavior
+##### Consent Popup Behavior
 Once the SDK is initialized, the consent popup will automatically display if the user's consent is either expired or has not yet been registered. The SDK takes care of managing the consent state automatically.
 
-#### Transferring User Consents (Publishers)
+##### Transferring User Consents (Publishers)
 For publishers, you can transfer a user's consent information by providing their Axeptio token. This token allows the SDK to automatically update the user's consent preferences in the SharedPreferences, following the TCFv2 (Transparency and Consent Framework) IAB (Interactive Advertising Bureau) specifications.
 
-#### Preventing Multiple Initializations of the SDK
+##### Preventing Multiple Initializations of the SDK
 Calling `initialize()` multiple times during the same session can cause crashes. To avoid this, always check if the SDK has already been initialized before making the call:
 - **Kotlin**
 ```kotlin
@@ -208,21 +208,21 @@ if (!AxeptioSDK.instance().isInitialized()) {
 ```
 By checking the `isInitialized()` method, you ensure that the SDK is initialized only once, preventing potential issues caused by multiple initializations.
 
-#### Handling the "INSTALL_FAILED_INVALID_APK" Error
+##### Handling the "INSTALL_FAILED_INVALID_APK" Error
 This error can occur during installation, typically due to issues with the APK or dependencies. The best solution is to perform a **clean build** to ensure that all libraries are properly integrated. To do so, execute the following command in your terminal:
 ```bash
 ./gradlew clean build
 ```
 This will clean the project and rebuild it, resolving any issues related to corrupted or improperly linked files. After completing the build, try reinstalling the app.
 
-##### Key Consideration 
+###### Key Consideration 
 - **Client ID** and **Configuration ID** should be properly configured according to your specific project setup.
 - The **Axeptio token** is optional, but it allows for better management of user consent states across different sessions.
 - Always ensure that you check for SDK initialization before calling `initialize()` to prevent multiple initializations that could cause crashes.
 
 The integration of the Axeptio SDK into your mobile application involves clear delineation of responsibilities between the mobile app and the SDK itself. Below are the distinct roles for each in handling user consent and tracking.
 <br><br><br>
-# 5. Responsibilities: Mobile App vs SDK
+## Responsibilities: Mobile App vs SDK
 #### **Mobile Application Responsibilities:**
 
 1. **Managing App Tracking Transparency (ATT) Flow:**
@@ -252,7 +252,7 @@ The integration of the Axeptio SDK into your mobile application involves clear d
    - The Axeptio SDK does **not** manage the App Tracking Transparency (ATT) permission flow. It is the host app's responsibility to request and handle ATT permissions explicitly before displaying the consent management interface. The SDK functions only once the ATT permission is granted (or bypassed due to platform restrictions).
 <br><br><br>
 
-# 6. 🔑Get Stored Consents
+## 🔑Get Stored Consents
 You can retrieve the consents stored by the Axeptio SDK in **SharedPreferences**. The following example demonstrates how to access these values within your app:
 - **Kotlin Examples**
 ```kotlin
@@ -265,7 +265,7 @@ val consentValue = sharedPref.getString("key", "default_value")
 In this example, replace `key` with the actual key used to store consent information, and `default_value` with the value you want to return if no consent is found.
 For more detailed information about the stored values, cookies, and how to handle them according to the Axeptio SDK, please refer to the [Axeptio Documentation](https://support.axeptio.eu/hc/en-gb/articles/8558526367249-Does-Axeptio-deposit-cookies)
 <br><br><br>
-# 7. Show Consent Popup on Demand
+## Show Consent Popup on Demand
 You can trigger the consent popup to open on demand at any point in your application by using the following methods.
 
 - **Kotlin**:
@@ -285,7 +285,7 @@ AxeptioSDK.instance().showConsentScreen(
 );
 ```
 <br><br><br>
-# 8. Popup Events
+## Popup Events
 When the consent popup is closed, an event is triggered. You can listen for this event by setting an `AxeptioEventListener`.
 - **Kotlin**:
 ```kotlin
@@ -308,7 +308,7 @@ AxeptioSDK.instance().setEventListener(new AxeptioEventListener() {
 });
 ```
 <br><br><br>
-# 9. Sharing Consents with Other Web Views
+## Sharing Consents with Other Web Views
 This feature is available exclusively for **Publishers** service.
 
 The SDK provides a helper function to append the `axeptio_token` query parameter to any URL. You can either specify a custom user token or use the token currently stored in the SDK.
@@ -323,7 +323,7 @@ AxeptioSDK.instance().appendAxeptioToken(
 This will return: `https://myurl.com?axeptio_token=[token]`
 
 <br><br><br>
-# 10. 🧹Clear User's Consent Choices
+## 🧹Clear User's Consent Choices
 To clear the user’s consent choices, you can use the following method. Please note that this operation is asynchronous, so you should use the `AxeptioEventListener.onConsentCleared()` method to be notified when the user’s consent choices have been cleared from SharedPreferences.
 - **Kotlin**
 ```kotlin
@@ -340,16 +340,16 @@ AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
 })
 ```
 <br><br><br>
-# 11. Google Consent v2
+## Google Consent v2
 This section describes how to integrate **Google Consent Mode** with the Axeptio SDK in your Android application.
-##### Prerequisites:
+###### Prerequisites:
 Before proceeding, ensure that **Firebase Analytics** is integrated into your Android project.
-##### How It Works:
+###### How It Works:
 When user consent is collected through your **Consent Management Platform (CMP)**, the SDK will automatically set the `IABTCF_EnableAdvertiserConsentMode` key in the **SharedPreferences_** to `true`.
-#### Register to Google Consent Updates
+##### Register to Google Consent Updates
 The **Axeptio SDK** provides a callback method to listen for updates on Google Consent. These updates need to be mapped to the corresponding Firebase models. Once the consent statuses are mapped, you can update Firebase Analytics consent settings using the `setConsent()` method from **Firebase Analytics**.
 
-##### Kotlin Example:
+###### Kotlin Example:
 ```kotlin
 // Set an event listener to listen for Google Consent Mode updates
 AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
@@ -377,7 +377,7 @@ AxeptioSDK.instance().setEventListener(object : AxeptioEventListener {
 })
 ```
 
-##### Java Example:
+###### Java Example:
 ```java
 // Set an event listener to listen for Google Consent Mode updates
 AxeptioSDK.instance().setEventListener(new AxeptioEventListener() {
@@ -427,7 +427,7 @@ AxeptioSDK.instance().setEventListener(new AxeptioEventListener() {
     }
 });
 ```
-#### Summary of Steps:
+##### Summary of Steps:
 1. Integrate **Firebase Analytics** into your Android project.
 2. Use the provided listener `onGoogleConsentModeUpdate()` to capture consent updates.
 3. Map the **Google Consent Types** and **Google Consent Statuses** to **Firebase Consent Types-**.
