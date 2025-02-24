@@ -3,6 +3,11 @@
   Axeptio Android SDK Documentation
 </h1>
 
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release](https://img.shields.io/github/release/axeptio/sample-app-android.svg)](https://github.com/axeptio/sample-app-android/releases) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/axeptio/sample-app-android/pulls)
+
+
+
+
 Welcome to the Axeptio Mobile SDK Samples project! This repository demonstrates how to implement the **Axeptio Android SDK** in your mobile applications.
 ## 📑 Table of Contents
 1. [Overview](#overview)
