@@ -3,7 +3,7 @@
   Axeptio Android SDK Documentation
 </h1>
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release](https://img.shields.io/github/release/axeptio/sample-app-android.svg)](https://github.com/axeptio/sample-app-android/releases) [![Build Status](https://img.shields.io/github/workflow/status/axeptio/sample-app-android/CI)](https://github.com/axeptio/sample-app-android/actions) 
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release](https://img.shields.io/github/release/axeptio/sample-app-android.svg)](https://github.com/axeptio/sample-app-android/releases) [![Build Status](https://img.shields.io/github/workflow/status/axeptio/sample-app-android/CI)](https://github.com/axeptio/sample-app-android/actions) [![Runtime Build and Test](https://github.com/axeptio/sample-app-android/actions/workflows/runtime_build_and_test.yml/badge.svg)](https://github.com/axeptio/sample-app-android/actions/workflows/runtime_build_and_test.yml)
 
 
 
