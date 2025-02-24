@@ -3,7 +3,9 @@
   Axeptio Android SDK Documentation
 </h1>
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release](https://img.shields.io/github/release/axeptio/sample-app-android.svg)](https://github.com/axeptio/sample-app-android/releases) [![Build Status](https://img.shields.io/github/workflow/status/axeptio/sample-app-android/CI)](https://github.com/axeptio/sample-app-android/actions) [![Runtime Build and Test](https://github.com/axeptio/sample-app-android/actions/workflows/runtime_build_and_test.yml/badge.svg)](https://github.com/axeptio/sample-app-android/actions/workflows/runtime_build_and_test.yml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/axeptio/sample-app-android/pulls)  [![Axeptio SDK Version](https://img.shields.io/github/v/release/axeptio/axeptio-android-sdk)](https://github.com/axeptio/axeptio-android-sdk/releases) [![Axeptio Consent Status](https://img.shields.io/badge/Consents%20Collected-85%25-brightgreen)](https://www.axept.io/) [![Android SDK Compatibility](https://img.shields.io/badge/Android%20SDK-%3E%3D%2026-blue)](https://developer.android.com/studio)
+
+
 
 
 
